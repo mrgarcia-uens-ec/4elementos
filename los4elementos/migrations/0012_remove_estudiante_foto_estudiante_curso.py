@@ -7,7 +7,7 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("appjesusgarcia", "0011_remove_estudiante_curso"),
+        ("los4elementos", "0011_remove_estudiante_curso"),
     ]
 
     operations = [
@@ -21,7 +21,7 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(
                 null=True,
                 on_delete=django.db.models.deletion.DO_NOTHING,
-                to="appjesusgarcia.curso",
+                to="los4elementos.curso",
             ),
         ),
     ]
