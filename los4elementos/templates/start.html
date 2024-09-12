@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+{{ nombre_jugador }}
+{{ tipo_jugador }}
+{{ codigo_partida }}
+<table>
+    <tr>
+        <td><img src="{% static 'images/los4elementos/jugador1.jpg' %}" class="avatar"></td>
+        <td><img src="{% static 'images/los4elementos/jugador2.jpg' %}" class="avatar"></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td>
+            <form action="" method="POST">
+                {% csrf_token %}
+            
+                <button type="submit" class="boton-start" name="anfitrion">START</button>
+            </form>
+        </td>
+    </tr>
+    <tr>
+        <td><img src="{% static 'images/los4elementos/jugador3.jpg' %}" class="avatar"><p class="nombre-avatar">Nombre</p></td>
+        <td><img src="{% static 'images/los4elementos/jugador4.jpg' %}" class="avatar"></td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td></td>
+        <td><img src="puzzles"></td>
+    </tr>
+</table>
+
+{% endblock %}
+
+<script type="text/javascript">
+    setTimeout(function () { 
+      location.reload();
+    }, 5 * 1000);
+</script>
+

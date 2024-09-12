@@ -4,75 +4,46 @@ from django.shortcuts import redirect
 
 from django.db.models import Q
 
-from .models import Curso
-from .models import Asignatura
-from .models import Estudiante
-
-from .forms import FormBusqueda
-from .forms import FormEstudiante
-
 def index(request):
-    return HttpResponse("Hola")
+    contexto = { }
+    return render(request, "inicio.html", contexto)
 
-def adios(request):
-    return HttpResponse("Adiós")
+def ingresar_partida(request):
+    contexto = { }
 
-def mostrarhtml(request):
-    lista_cursos = Curso.objects.all()
-    contexto = {
-        "lista_cursos": lista_cursos
-    }
-    return render(request, "cursos.html", contexto)
-
-def lista_de_asignaturas(request):
-    lista_asignaturas = Asignatura.objects.all()
-    contexto = {
-        "lista_asignaturas": lista_asignaturas,
-        "equipos_de_futbol": ["Real Madrid", "Atlético de Madrid", "Español"],
-        "mi_nombre": "Pepe"
-    }
-    return render(request, "asignaturas.html", contexto)
-
-def lista_de_estudiantes(request):
     if request.method == 'POST':
-        form = FormBusqueda(request.POST)
-        if form.is_valid():
-            filtro = form.cleaned_data["filtro"]
-            filtroQ = Q(nombre__contains=filtro) | Q(apellidos__contains=filtro)
+        nombre_jugador = request.POST.get("nombre_jugador")
+        if "atras" in request.POST:
+            print("atras")
+            return redirect("/los4elementos")
+        else:
+            if not nombre_jugador or nombre_jugador == "":
+                contexto = { "error" : "El nombre del jugador es obligatorio" }
+                return render(request, "ingresar-partida.html", contexto)
+        
+        if "anfitrion" in request.POST:
+            return redirect("/los4elementos/start/anfitrion/" + nombre_jugador + "/@")
+
+        if "invitado" in request.POST:
+            codigo_partida = request.POST.get("codigo_partida")
+
+            # Comprobar que hay codigo de partida
+            if not codigo_partida or codigo_partida == "":
+                contexto = { "error" : "El código de la partida es obligatorio para entrar en privado" }
+                return render(request, "ingresar-partida.html", contexto)
+
+            return redirect("/los4elementos/start/invitado/" + nombre_jugador + "/" + codigo_partida)
+        else:
+            return redirect("/los4elementos")
+
     else:
-        form = FormBusqueda()
-        filtroQ = ~Q(pk__in=[])
-    
-    lista_estudiantes = Estudiante.objects.filter(filtroQ)
+        return render(request, "ingresar-partida.html", contexto)
+
+def start(request, tipo_jugador, nombre_jugador, codigo_partida):
     contexto = {
-        "lista_estudiantes": lista_estudiantes,
-        "form": form
+        "tipo_jugador" : tipo_jugador,
+        "nombre_jugador" : nombre_jugador,
+        "codigo_partida" : codigo_partida
     }
-    return render(request, "estudiantes.html", contexto)
 
-def detalle_estudiante(request, id_estudiante):
-    if request.method == 'POST':
-        form = FormEstudiante(request.POST)
-        if form.is_valid():
-            Estudiante.objects.filter(pk=id_estudiante).update(
-                nombre = form.cleaned_data["nombre"],
-                apellidos = form.cleaned_data["apellidos"],
-                fecha_nacimiento = form.cleaned_data["fecha_nacimiento"],
-                foto = form.cleaned_data["foto"],
-                curso_id = form.cleaned_data["curso"].id                
-            )
-            return redirect(lista_de_estudiantes)
-    else:
-        estudiante = Estudiante.objects.get(pk=id_estudiante)
-        form = FormEstudiante()
-        form.initial['nombre'] = estudiante.nombre
-        form.initial['apellidos'] = estudiante.apellidos
-        form.initial['fecha_nacimiento'] = estudiante.fecha_nacimiento
-        form.initial['foto'] = estudiante.foto
-        form.initial['curso'] = estudiante.curso
-
-        contexto = {
-            "estudiante": estudiante,
-            "form": form
-        }
-        return render(request, "estudiante.html", contexto)
+    return render(request, "start.html", contexto)

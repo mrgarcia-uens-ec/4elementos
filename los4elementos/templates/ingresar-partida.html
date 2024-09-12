@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+
+<form action="" method="POST">
+    {% csrf_token %}
+
+    <div style="margin-top: 20px; text-align: center;">
+        <input 
+            style="font-size: 30px" 
+            type="text"
+            id="nombre_jugador"
+            name="nombre_jugador"
+            class="boton-puzzle"
+            placeholder="JUGADOR"
+        >
+    </div>
+
+    <div style="margin-top: 60px; text-align: center;">
+        <p>Ser Anfitrión</p>
+        <button type="submit" class="boton-puzzle" name="anfitrion">Crear Partida</button>
+    </div>
+
+    <div style="margin-top: 60px; text-align: center;">
+        <p>Partida Privada</p>
+        <input 
+            type="text"
+            id="codigo_partida"
+            name="codigo_partida"
+            class="boton-puzzle"
+            placeholder="Ingresar Código"
+        >
+        <button type="submit" class="boton-puzzle" name="invitado">Ir a la partida</button>
+    </div>
+
+    <div style="margin-top: 10px; text-align: left;">
+        <button class="boton-puzzle" name="atras" type="submit" style="padding: 10px 30px">Atrás</button>
+    </div>
+
+    <p style="color: red">{% if error %} {{error}} {% endif %}</p>
+    
+</form>
+
+{% endblock %}
