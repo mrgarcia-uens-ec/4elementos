@@ -3,43 +3,56 @@
 
 {% block content %}
 
-{{ nombre_jugador }}
-{{ tipo_jugador }}
-{{ codigo_partida }}
 <table>
     <tr>
-        <td><img src="{% static 'images/los4elementos/jugador1.jpg' %}" class="avatar"></td>
-        <td><img src="{% static 'images/los4elementos/jugador2.jpg' %}" class="avatar"></td>
-        <td></td>
+        <td>
+            <img src="{% static 'images/los4elementos/jugador1.jpg' %}" class="avatar {% if partida.nombre_jugador_1 %} avatar-activo {% endif %}">
+            <p class="nombre-avatar">{%if partida.nombre_jugador_1%}{{partida.nombre_jugador_1}}{%else%}&nbsp{%endif%}</p>
+        </td>
+        <td>
+            <img src="{% static 'images/los4elementos/jugador2.jpg' %}" class="avatar {% if partida.nombre_jugador_2 %} avatar-activo {% endif %}">
+            <p class="nombre-avatar">{%if partida.nombre_jugador_2%}{{partida.nombre_jugador_2}}{%else%}&nbsp{%endif%}</p>
+        </td>
+    <td></td>
     </tr>
     <tr>
         <td></td>
         <td></td>
         <td>
+            {%if tipo_jugador == "anfitrion"%}
             <form action="" method="POST">
                 {% csrf_token %}
             
                 <button type="submit" class="boton-start" name="anfitrion">START</button>
+                <p style="text-align: center;">{{codigo_partida}}</p>
             </form>
+            {% endif %}
         </td>
     </tr>
     <tr>
-        <td><img src="{% static 'images/los4elementos/jugador3.jpg' %}" class="avatar"><p class="nombre-avatar">Nombre</p></td>
-        <td><img src="{% static 'images/los4elementos/jugador4.jpg' %}" class="avatar"></td>
+        <td>
+            <img src="{% static 'images/los4elementos/jugador3.jpg' %}" class="avatar {% if partida.nombre_jugador_3 %} avatar-activo {% endif %}">
+            <p class="nombre-avatar">{%if partida.nombre_jugador_3%}{{partida.nombre_jugador_3}}{%else%}&nbsp{%endif%}</p>
+        </td>
+        <td>
+            <img src="{% static 'images/los4elementos/anfitrion.jpg' %}" class="avatar {% if partida.nombre_anfitrion %} avatar-activo {% endif %}">
+            <p class="nombre-avatar">{%if partida.nombre_anfitrion%}{{partida.nombre_anfitrion}}{%else%}&nbsp{%endif%}</p>
+        </td>
         <td></td>
     </tr>
     <tr>
         <td></td>
         <td></td>
-        <td><img src="puzzles"></td>
+        <td></td>
     </tr>
 </table>
-
-{% endblock %}
 
 <script type="text/javascript">
     setTimeout(function () { 
       location.reload();
     }, 5 * 1000);
 </script>
+
+{% endblock %}
+
 

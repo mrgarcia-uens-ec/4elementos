@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+
+<table>
+    <tr>
+        <td>
+            <img src="{% static 'images/los4elementos/anfitrion.jpg' %}" class="avatar" style="margin: 10px">
+        </td>
+        <td></td>
+    </tr>
+    <tr>
+        <td></td>
+        <td>
+            <div id=forPuzzle></div>
+        </td>
+    </tr>
+</table>
+
+<ul id="menu">
+    <li style="display: none">
+        shape: 
+        <select id="shape">
+            <option value="1" selected>classic</option>
+        </select>
+    </li>
+    <li>12 pieces</li>
+    <li>25 pieces</li>
+    <li>50 pieces</li>
+</ul>
+
+<script src="{% static 'javascript/puzzle.js' %}"></script>
+
+{% endblock %}
+
+

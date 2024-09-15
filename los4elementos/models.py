@@ -3,7 +3,6 @@ from django.db import models
 class Partida(models.Model):
     cod_partida = models.CharField(max_length=100, null=True)
 
-    nombre = models.CharField(max_length=100, null=True)
     fecha_creacion = models.DateTimeField(null=True)
     fecha_inicio = models.DateTimeField(null=True)
     
